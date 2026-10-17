@@ -12,7 +12,7 @@ curriculum_url = (
 
 years = range(2020, 2027)
 
-request_payload = {
+request_payload = {d
     "isApi": "Y",
     "search": {
         "dprtnCd": "",
@@ -75,7 +75,7 @@ def post_excel_course_curriculums():
             curriculum["major"]["id"],
             curriculum["semester"]["year"],
             curriculum["semester"]["semester_"],
-            curriculum["curriculum_grade"],
+            curriculum["grade"],
         )
         curriculum_ids.setdefault(key, []).append(curriculum["id"])
 
@@ -98,7 +98,7 @@ def post_excel_course_curriculums():
                 matching_majors[0]["id"],
                 record["year"],
                 record["semester_"],
-                record["curriculum_grade"],
+                record["grade"],
             ),
             [],
         )
@@ -146,7 +146,7 @@ def post_course_curriculums():
             curriculum["major"]["id"],
             curriculum["semester"]["year"],
             curriculum["semester"]["semester_"],
-            curriculum["curriculum_grade"],
+            curriculum["grade"],
         )
         curriculum_ids.setdefault(key, []).append(curriculum["id"])
 

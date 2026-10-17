@@ -69,7 +69,7 @@ def fetch_excel_curriculums():
                             "major_code": major_code,
                             "year": 2027,
                             "semester_": "FIRST",
-                            "curriculum_grade": grade,
+                            "grade": grade,
                         }
                     )
 
@@ -79,7 +79,7 @@ def fetch_excel_curriculums():
                             "major_code": major_code,
                             "year": 2027,
                             "semester_": "SECOND",
-                            "curriculum_grade": grade,
+                            "grade": grade,
                         }
                     )
     finally:
@@ -124,13 +124,13 @@ def post_excel_curriculums(majors, semesters):
                 data = {
                     "major_id": major["id"],
                     "semester_id": semester["id"],
-                    "curriculum_grade": record["curriculum_grade"],
+                    "grade": record["grade"],
                 }
 
                 key = (
                     data["major_id"],
                     data["semester_id"],
-                    data["curriculum_grade"],
+                    data["grade"],
                 )
 
                 if key in posted:
@@ -182,7 +182,7 @@ def post_curriculums():
                     {
                         "major_id": major["id"],
                         "semester_id": semester["id"],
-                        "curriculum_grade": grade,
+                        "grade": grade,
                     }
                 )
     post_excel_curriculums(majors, semesters)
