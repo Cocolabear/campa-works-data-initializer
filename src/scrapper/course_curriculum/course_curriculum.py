@@ -12,7 +12,7 @@ curriculum_url = (
 
 years = range(2020, 2027)
 
-request_payload = {
+request_payload = {d
     "isApi": "Y",
     "search": {
         "dprtnCd": "",

@@ -130,7 +130,6 @@ def post_excel_master_courses(excel_file_path):
             "lecture": record["lecture"],
             "practice": record["practice"],
             "course_type": "UNDERGRADUATE",
-            "is_core": False,
             "course_status": "ACTIVE",
         }
 
@@ -179,7 +178,6 @@ def post_master_courses():
                                 "lecture": int(record["thryTime"]),
                                 "practice": int(record["prctsTime"]),
                                 "course_type": "UNDERGRADUATE",
-                                "is_core": False,
                                 "course_status": "ACTIVE",
                             },
                             headers={"Content-Type": "application/json"},
