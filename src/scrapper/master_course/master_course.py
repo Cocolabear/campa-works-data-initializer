@@ -2,13 +2,17 @@ import httpx
 import json
 import argparse
 import openpyxl
+import os
+from pathlib import Path
+from dotenv import load_dotenv
 
 curriculum_url = (
     "https://knuin.knu.ac.kr/public/web/stddm/curse/educourse/eduCour/searchEduCourList"
 )
 
-# 경로 수정 필요.
-excel_file_path = "src/excel/AI university.xlsx"
+project_path = Path(__file__).resolve().parents[3]
+load_dotenv(project_path / ".env")
+excel_file_path = project_path / os.environ["EXCEL_FILE_PATH"]
 
 
 def fetch_excel_curriculums(excel_file_path):
@@ -32,11 +36,18 @@ def fetch_excel_curriculums(excel_file_path):
                     break
                 if code is None and name is None:
                     continue
+
+                credit, lecture, practice = [
+                    int(value.strip().removesuffix("주"))
+                    for value in str(credit).strip().split("-")
+                ]
+
                 semester_type = {
                     "1학기": "FIRST",
                     "2학기": "SECOND",
                 }.get(str(term).strip())
                 semesters = [semester_type]
+
                 if "동시개설" in str(note):
                     semesters = ["FIRST", "SECOND"]
 
@@ -46,10 +57,13 @@ def fetch_excel_curriculums(excel_file_path):
                             "major_code": major_code,
                             "year": 2027,
                             "semester_": semester,
-                            "curriculum_grade": int(grade),
+                            "grade": int(grade),
                             "course_code": str(code).strip(),
                             "course_name": str(name).strip(),
                             "course_en_name": str(en_name or "").strip(),
+                            "credit": credit,
+                            "lecture": lecture,
+                            "practice": practice,
                         }
                     )
     finally:
@@ -112,6 +126,9 @@ def post_excel_master_courses(excel_file_path):
             "course_code": record["course_code"],
             "course_name": record["course_name"],
             "course_en_name": record["course_en_name"],
+            "credit": record["credit"],
+            "lecture": record["lecture"],
+            "practice": record["practice"],
             "course_type": "UNDERGRADUATE",
             "is_core": False,
             "course_status": "ACTIVE",
@@ -158,6 +175,9 @@ def post_master_courses():
                                 "course_code": course_code,
                                 "course_name": course_name,
                                 "course_en_name": course_en_name,
+                                "credit": int(record["crdit"]),
+                                "lecture": int(record["thryTime"]),
+                                "practice": int(record["prctsTime"]),
                                 "course_type": "UNDERGRADUATE",
                                 "is_core": False,
                                 "course_status": "ACTIVE",
